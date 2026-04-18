@@ -1,12 +1,19 @@
 @echo off
 cd /d "%~dp0"
-echo Initializing git repo and pushing to GitHub...
-git init
-git add .
-git commit -m "Initial commit: ZAP watch prototype (Vocal Coach + squishy mic)"
-git branch -M main
-git remote add origin https://github.com/sankethverma07/zap-watch.git
-git push -u origin main
+
+echo === ZAP Watch: commit and push to GitHub ===
+
+rem Clear any stale index lock from a previous crashed commit
+if exist ".git\index.lock" (
+    echo Clearing stale .git\index.lock
+    del /f /q ".git\index.lock"
+)
+
+git add -A
+git commit -m "Rewrite React app: routing, persistence, all 10 screens"
+git push origin main
+
 echo.
-echo Done. You can close this window.
+echo Done. Vercel should auto-redeploy in ~30 seconds.
+echo Visit https://zap-watch.vercel.app to verify.
 pause
